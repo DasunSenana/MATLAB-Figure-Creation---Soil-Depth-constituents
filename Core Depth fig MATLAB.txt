@@ -1,0 +1,76 @@
+clc; clear; close all;
+
+% -----------------------------
+% Sample data (replace with yours)
+% Rows = depth intervals
+% Columns = [Rhizophora (R), Avicennia (A), Lumnitzera (L)]
+% -----------------------------
+
+depth_labels = {'0-10','10-20'};
+
+% Panel a
+data_a = [
+    26.0 50.4 15.5  8.2;
+    21.5 50.8 15.9 11.8
+];
+
+% Panel b
+data_b = [
+    20.6 41.0 18.7 19.7;
+    21.7 47.1 12.9 18.3
+];
+
+% Panel c
+data_c = [
+    10.1 54.2 18.2 17.5;
+    18.6 53.4 13.5 14.5
+];
+
+% Colors (match figure style)
+colors = [
+    1.00 0.00 0.00;   % Red
+    1.00 1.00 1.00;   % White
+    0.00 0.00 1.00;   % Blue
+    0.00 0.60 0.00    % Green
+];
+
+titles = {'Rhizophora (R)','Avicennia (A)','Lumnitzera (L)'};
+all_data = {data_a, data_b, data_c};
+
+figure;
+
+for i = 1:3
+    
+    subplot(1,3,i);
+    
+    data = all_data{i};
+    
+    % Horizontal stacked bar
+    h = barh(data, 'stacked');
+    
+    % Apply colors
+    for k = 1:4
+        set(h(k), 'FaceColor', colors(k,:));
+    end
+    
+    % Formatting
+    set(gca, 'YTick', 1:length(depth_labels));
+    set(gca, 'YTickLabel', depth_labels);
+    set(gca, 'YDir','reverse'); % top-down like your figure
+ 
+
+    xlim([0 100]);
+    xlabel('% Composition');
+    
+    if i == 1
+        ylabel('Core depth (cm)');
+    end
+    
+    title(titles{i});
+    
+end
+
+% Legend
+legend({'Red Fiber','White Fiber','Blue Fiber','Green Fiber'}, ...
+       'Position',[0.35 0.02 0.3 0.05], ...
+       'Orientation','horizontal');
